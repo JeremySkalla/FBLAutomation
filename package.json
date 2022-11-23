@@ -1,0 +1,24 @@
+{
+  "name": "fblautomation",
+  "version": "1.0.0",
+  "description": "This league has been running for over 20 years and it hasn't been automated so I'm doing it myself :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremySkalla/FBLAutomation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeremySkalla/FBLAutomation/issues"
+  },
+  "homepage": "https://github.com/JeremySkalla/FBLAutomation#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
