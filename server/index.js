@@ -21,10 +21,6 @@ class Player{
     }
 }
 
-app.get("/api", (req, res) => {
-    res.json({ message: "FBL Automation in progress" });
-});
-
 app.get("/processFile", (req, res) => {
     const wb = reader.readFile(__dirname + '/week1.xlsx');
     const sheet = wb.Sheets[wb.SheetNames[1]];
