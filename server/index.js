@@ -21,6 +21,20 @@ class Player{
     }
 }
 
+function getPlayers(data, x, y) {
+    var playerList = []
+    for (var i=x; i<y; i++) {
+        let keys = Object.keys(data[i])
+        for (const k of keys) {
+            if (data[i][k] != " ") {
+                playerList.push(data[i][k])
+            }
+        }
+    }
+
+    return playerList
+}
+
 app.get("/processFile", (req, res) => {
     const wb = reader.readFile(__dirname + '/week1.xlsx');
     const sheet = wb.Sheets[wb.SheetNames[1]];
@@ -30,8 +44,8 @@ app.get("/processFile", (req, res) => {
 
     var teamList = [];
     var teamList2 = [];
-    var playerList = [];
-    var playerList2 = [];
+    // var playerList = [];
+    // var playerList2 = [];
     var endData = {};
 
     for (var v in data[2]) {
@@ -46,26 +60,29 @@ app.get("/processFile", (req, res) => {
     teamList2.push(data[17]['__EMPTY_5'].trim());
     endData[data[17]['__EMPTY_5'].trim()] = [];
 
-    for (var i=4; i<12; i++) {
-        let keys = Object.keys(data[i]);
-        for (const k of keys) {
-            if (data[i][k] != " ") {
-                playerList.push(data[i][k]);
-            }
-        }
-    }
+    let playerList1 = getPlayers(data, 4, 12);
+    let playerList2 = getPlayers(data, 19, 27);
 
-    for (var i=19; i<27; i++) {
-        let keys = Object.keys(data[i]);
-        for (const k of keys) {
-            if (data[i][k] != " ") {
-                playerList2.push(data[i][k]);
-            }
-        }
-    }
+    // for (var i=4; i<12; i++) {
+    //     let keys = Object.keys(data[i]);
+    //     for (const k of keys) {
+    //         if (data[i][k] != " ") {
+    //             playerList.push(data[i][k]);
+    //         }
+    //     }
+    // }
 
-    for (i=0; i<playerList.length; i += 3) {
-        let temp = new Player(playerList[i], playerList[i+1], playerList[i+2]);
+    // for (var i=19; i<27; i++) {
+    //     let keys = Object.keys(data[i]);
+    //     for (const k of keys) {
+    //         if (data[i][k] != " ") {
+    //             playerList2.push(data[i][k]);
+    //         }
+    //     }
+    // }
+
+    for (i=0; i<playerList1.length; i += 3) {
+        let temp = new Player(playerList1[i], playerList1[i+1], playerList1[i+2]);
         let j = (i/3) % 6;
         endData[teamList[j]].push(temp.jsonify())
     }
