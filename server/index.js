@@ -35,8 +35,8 @@ function getPlayers(data, x, y) {
     return playerList
 }
 
-app.get("/processFile", (req, res) => {
-    const wb = reader.readFile(__dirname + '/week1.xlsx');
+function processFile(file_name) {
+    const wb = reader.readFile(__dirname + '/' + file_name);
     const sheet = wb.Sheets[wb.SheetNames[1]];
     const data = reader.utils.sheet_to_json(sheet);
 
@@ -44,8 +44,6 @@ app.get("/processFile", (req, res) => {
 
     var teamList = [];
     var teamList2 = [];
-    // var playerList = [];
-    // var playerList2 = [];
     var endData = {};
 
     for (var v in data[2]) {
@@ -63,24 +61,6 @@ app.get("/processFile", (req, res) => {
     let playerList1 = getPlayers(data, 4, 12);
     let playerList2 = getPlayers(data, 19, 27);
 
-    // for (var i=4; i<12; i++) {
-    //     let keys = Object.keys(data[i]);
-    //     for (const k of keys) {
-    //         if (data[i][k] != " ") {
-    //             playerList.push(data[i][k]);
-    //         }
-    //     }
-    // }
-
-    // for (var i=19; i<27; i++) {
-    //     let keys = Object.keys(data[i]);
-    //     for (const k of keys) {
-    //         if (data[i][k] != " ") {
-    //             playerList2.push(data[i][k]);
-    //         }
-    //     }
-    // }
-
     for (i=0; i<playerList1.length; i += 3) {
         let temp = new Player(playerList1[i], playerList1[i+1], playerList1[i+2]);
         let j = (i/3) % 6;
@@ -93,8 +73,13 @@ app.get("/processFile", (req, res) => {
         endData[teamList2[j]].push(temp.jsonify())
     }
 
-    console.log(endData);
-    res.json(endData);
+    return endData
+}
+
+app.get("/processFile", (req, res) => {
+    let data = processFile(req.query.file);
+    console.log(data);
+    res.json(data);
 });
 
 app.listen(PORT, () => {
