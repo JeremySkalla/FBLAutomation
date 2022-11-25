@@ -3,22 +3,26 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [data, setData] = React.useState(null);
+    const [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
+    onChangeHandler=event=>{
+        console.log(event.target.files[0])
+    }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "Loading..." : data}</p>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <h1 class="title">Upload FBL Scoring File</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <form method="post" action="#" id="#">
+                        <div class="form-group files">
+                            <input type="file" class="form-control" onChange={this.onChangeHandler}></input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
