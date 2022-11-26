@@ -9,10 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JeremySkalla/FBLAutomation.git"
+    "url": "https://github.com/JeremySkalla/FBLAutomation"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "fantasy basketball",
+    "nba"
+  ],
+  "author": "Jeremy Skalla",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/JeremySkalla/FBLAutomation/issues"
