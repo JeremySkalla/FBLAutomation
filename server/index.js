@@ -81,6 +81,11 @@ function getRosters(file_name) {
     return endData
 }
 
+app.get("/", (req, res) =>  {
+    res.status(404);
+    res.type('txt').send('Not found');
+}); 
+
 app.get("/processFile", (req, res) => {
     const data = getRosters(req.query.file); // Processing file to get rosters function
     console.log(data);
