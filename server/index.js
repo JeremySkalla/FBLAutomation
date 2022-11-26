@@ -93,7 +93,7 @@ app.get("/processFile", (req, res) => {
 });
 
 app.get("/download", (req, res) =>  {
-    res.sendFile(req.query.file);
+    res.sendFile(__dirname + '/' +req.query.file);
 });
 
 app.listen(PORT, () => {
