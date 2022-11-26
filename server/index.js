@@ -47,7 +47,8 @@ function pushToData(data, players, teams, x) {
     return data
 }
 
-function processFile(file_name) {
+// Gets rosters using helper functions
+function getRosters(file_name) {
     const wb = reader.readFile(__dirname + '/' + file_name); // Reads file
     const data = reader.utils.sheet_to_json(wb.Sheets[wb.SheetNames[1]]); // Gets data from sheet
 
@@ -81,9 +82,13 @@ function processFile(file_name) {
 }
 
 app.get("/processFile", (req, res) => {
-    const data = processFile(req.query.file); // Processing file to get rosters function
+    const data = getRosters(req.query.file); // Processing file to get rosters function
     console.log(data);
     res.json(data);
+});
+
+app.get("/download", (req, res) =>  {
+    res.sendFile(req.query.file);
 });
 
 app.listen(PORT, () => {
