@@ -35,24 +35,32 @@ function getPlayers(data, x, y) {
     return playerList
 }
 
+function pushToData(data, players, teams, x) {
+    for (var i=0; i<players.length; i+=3) {
+        let temp = new Player(players[i], players[i+1], players[i+2]);
+        let j = (i/3) % x;
+        data[teams[j]].push(temp.jsonify());
+    }
+
+    return data;
+}
+
 function processFile(file_name) {
     const wb = reader.readFile(__dirname + '/' + file_name);
-    const sheet = wb.Sheets[wb.SheetNames[1]];
-    const data = reader.utils.sheet_to_json(sheet);
+    const data = reader.utils.sheet_to_json(wb.Sheets[wb.SheetNames[1]]);
 
-    const week = Object.keys(data[0])[0];
-
-    var teamList = [];
+    var teamList1 = [];
     var teamList2 = [];
-    var endData = {};
+    let endData = {};
 
     for (var v in data[2]) {
         let temp = data[2][v].trim();
         if (temp != "VS" && temp != "") {
-            teamList.push(temp);
+            teamList1.push(temp);
             endData[temp] = [];
         }
     }
+
     teamList2.push(data[17]['WEEK 1'].trim());
     endData[data[17]['WEEK 1'].trim()] = [];
     teamList2.push(data[17]['__EMPTY_5'].trim());
@@ -61,23 +69,14 @@ function processFile(file_name) {
     let playerList1 = getPlayers(data, 4, 12);
     let playerList2 = getPlayers(data, 19, 27);
 
-    for (i=0; i<playerList1.length; i += 3) {
-        let temp = new Player(playerList1[i], playerList1[i+1], playerList1[i+2]);
-        let j = (i/3) % 6;
-        endData[teamList[j]].push(temp.jsonify())
-    }
-
-    for (i=0; i<playerList2.length; i += 3) {
-        let temp = new Player(playerList2[i], playerList2[i+1], playerList2[i+2]);
-        let j = (i/3) % 2;
-        endData[teamList2[j]].push(temp.jsonify())
-    }
+    endData = pushToData(endData, playerList1, teamList1, 6);
+    endData = pushToData(endData, playerList2, teamList2, 2);
 
     return endData
 }
 
 app.get("/processFile", (req, res) => {
-    let data = processFile(req.query.file);
+    const data = processFile(req.query.file);
     console.log(data);
     res.json(data);
 });
